@@ -1,12 +1,10 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
+import MusicPlayer from './src/screens/MusicPlayer';
+
 const App = () => {
-  return (
-    <View>
-      <Text>App</Text>
-    </View>
-  );
+  return <MusicPlayer />;
 };
 
 export default App;
