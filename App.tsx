@@ -1,10 +1,19 @@
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import React from 'react';
 
 import MusicPlayer from './src/screens/MusicPlayer';
 
 const App = () => {
-  return <MusicPlayer />;
+  return (
+    <>
+      <StatusBar
+        hidden={false}
+        barStyle="light-content"
+        backgroundColor="gray"
+      />
+      <MusicPlayer />
+    </>
+  );
 };
 
 export default App;
