@@ -6,22 +6,21 @@ import {
   Dimensions,
   Image,
   Text,
+  FlatList,
 } from 'react-native';
 
 import PlayIcon from 'react-native-vector-icons/AntDesign';
-//play
 import PauseIcon from 'react-native-vector-icons/AntDesign';
-//pausecircle
 import NextIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-//skip - next;
 import PreviousIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-// skip - previous;
 import HeartIcon from 'react-native-vector-icons/Feather';
 import RepeatIcon from 'react-native-vector-icons/Feather';
 import ShareIcon from 'react-native-vector-icons/Feather';
 import OptionIcon from 'react-native-vector-icons/SimpleLineIcons';
 
 import Slider from '@react-native-community/slider';
+
+import {SongsData} from '../assets/songsData/SongsData';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -44,23 +43,44 @@ const MusicPlayer = () => {
     console.log('Next');
   };
 
+  const renderSongs = ({item}) => {
+    return (
+      <View style={styles.flatListRenderContainer}>
+        <Image style={styles.flatListImagePoster} source={item.songImage} />
+        <View style={styles.flatListDetailsView}>
+          <Text numberOfLines={1} style={styles.flatListSongNameText}>
+            {item.songName}
+          </Text>
+          <Text numberOfLines={1} style={styles.flatListArtistNameText}>
+            {item.songArtist}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       {/* Music Player, details & Controls View */}
       <View style={styles.musicPlayerControlsView}>
-        {/* Image View */}
-        <View style={styles.imageView}>
-          <Image
-            style={styles.imagePoster}
-            source={require('../assets/images/billieEilish_Lovely.jpg')}
+        {/* FlatListView View */}
+
+        <View style={styles.flatListView}>
+          <FlatList
+            //pagingEnabled
+            horizontal
+            data={SongsData}
+            renderItem={renderSongs}
+            scrollEventThrottle={14}
+            snapToInterval={width}
+            onScroll={() => {}}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
 
         {/* Details view */}
         <View style={styles.detailsView}>
-          <Text style={styles.songNameText}>Song Title</Text>
-          <Text style={styles.artistNameText}>Some Artist - Name</Text>
-
           <View style={styles.sliderView}>
             <Slider
               style={styles.slider}
@@ -133,32 +153,47 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   musicPlayerControlsView: {},
-  imageView: {
+
+  //FlatList View Start
+  flatListRenderContainer: {
+    width: width,
     paddingTop: 40,
     paddingBottom: 25,
     alignItems: 'center',
   },
-  imagePoster: {
+  flatListImagePoster: {
     height: 350,
     width: 350,
     borderRadius: 10,
   },
-  detailsView: {
+  flatListDetailsView: {
+    paddingTop: 30,
     alignItems: 'center',
   },
-  songNameText: {
+
+  flatListSongNameText: {
+    textAlign: 'center',
+    width: '60%',
     fontSize: 25,
     color: 'white',
   },
-  artistNameText: {
+  flatListArtistNameText: {
+    textAlign: 'center',
+    width: '60%',
     fontSize: 18,
     color: 'white',
+  },
+
+  //FlatList View End
+  detailsView: {
+    alignItems: 'center',
   },
   sliderView: {
     width: '80%',
   },
   slider: {
-    height: 40,
+    height: 20,
+    paddingBottom: 10,
   },
   sliderDurationTextView: {
     flexDirection: 'row',
